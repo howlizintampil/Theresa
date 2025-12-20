@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Dearest One, Theresa ❤️</title>
+    <style>
+        :root {
+            --maroon-deep: #4a0404;
+            --maroon-bright: #800000;
+            --glass-bg: rgba(255, 255, 255, 0.12);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --text-color: #fce4e4;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #2d0101 0%, #630a0a 50%, #800000 100%);
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* --- HALAMAN 1: COVER --- */
+        #page1 {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            z-index: 10;
+            transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .album-case {
+            width: 280px;
+            height: 280px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
+            border-radius: 25px;
+            padding: 20px;
+            box-shadow: 0 15px 45px rgba(0,0,0,0.4);
+            cursor: pointer;
+            transition: transform 0.4s ease;
+        }
+
+        .album-case:hover { transform: scale(1.05); }
+
+        .album-art {
+            width: 100%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1516589174184-e66443dd954a?q=80&w=500') center/cover;
+            border-radius: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .album-art::after {
+            content: "CLICK TO UNWRAP";
+            background: rgba(0,0,0,0.5);
+            color: white;
+            width: 100%;
+            padding: 12px 0;
+            text-align: center;
+            font-size: 10px;
+            letter-spacing: 3px;
+        }
+
+        /* --- HALAMAN 2: CONTENT --- */
+        #page2 {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 1.2s ease;
+            overflow-y: auto; /* Memungkinkan scroll jika konten panjang */
+            padding: 40px 0;
+        }
+
+        .content-wrapper {
+            width: 90%;
+            max-width: 500px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin: auto; /* Menjaga konten tetap di tengah saat scroll */
+        }
+
+        .glass-panel {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 25px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            color: var(--text-color);
+        }
+
+        .music-player {
+            padding: 15px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 5;
+        }
+
+        .love-letter {
+            padding: 35px;
+            line-height: 1.8;
+        }
+
+        /* Variasi Konten: Milestones */
+        .milestone-box {
+            margin-top: 25px;
+            padding: 15px;
+            border-left: 2px solid var(--glass-border);
+            font-size: 14px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 0 15px 15px 0;
+        }
+
+        .milestone-item { margin-bottom: 10px; }
+        .milestone-date { font-weight: bold; color: #fff; display: block; }
+
+        /* Tombol */
+        .btn-action {
+            background: #fce4e4;
+            color: var(--maroon-deep);
+            border: none;
+            padding: 8px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .btn-action:hover { background: #fff; transform: scale(1.1); }
+
+        .btn-back {
+            background: transparent;
+            border: none;
+            color: rgba(252, 228, 228, 0.5);
+            cursor: pointer;
+            margin: 20px 0;
+            font-size: 13px;
+            text-decoration: underline;
+        }
+
+        /* Utility */
+        .hidden { transform: translateY(-100%) scale(0.9); opacity: 0; pointer-events: none; }
+        .visible { opacity: 1 !important; visibility: visible !important; }
+        
+        h2 { margin-top: 0; font-family: 'Segoe UI', sans-serif; letter-spacing: 1px; }
+        .highlight { color: #ffb3b3; font-weight: bold; }
+        
+        /* Custom Scrollbar */
+        #page2::-webkit-scrollbar { width: 5px; }
+        #page2::-webkit-scrollbar-thumb { background: var(--glass-border); border-radius: 10px; }
+    </style>
+</head>
+<body>
+
+    <div id="page1">
+        <div class="album-case" onclick="openLetter()">
+            <div class="album-art"></div>
+        </div>
+        <h1 style="color: white; margin-top: 30px; font-weight: lighter; letter-spacing: 4px; font-size: 18px;">DEAR THERESA</h1>
+    </div>
+
+    <div id="page2">
+        <div class="content-wrapper">
+            <div class="glass-panel music-player">
+                <div>
+                    <span style="font-size: 12px; opacity: 0.7; display: block;">Playlist for you:</span>
+                    <span style="font-size: 14px; font-weight: bold;">Our Memories.mp3 🎵</span>
+                </div>
+                <audio id="mySong" loop>
+                    <source src="D:\DEPLOY\There\LookAfterYou.mp3" type="audio/mpeg">
+                </audio>
+                <button onclick="toggleMusic()" id="playBtn" class="btn-action">PLAY</button>
+            </div>
+
+            <div class="glass-panel love-letter">
+                <h2>Hi Theresa ❤️</h2>
+                <p>Happy 1st Mensive! Gak kerasa ya, perjalanan <span class="highlight">30 hari</span> kita sudah sampai di titik ini. Aku cuma mau bilang makasih banyak karena kamu sudah memilih untuk ada di sini, di samping aku.</p>
+                
+                <p>Makasih buat setiap chat random, telpon lama yang bikin lupa waktu, dan semua dukungan kecil yang sebenarnya berarti besar banget buat aku. Kamu itu <span class="highlight">bintang paling terang</span> di langit maroon aku malam ini.</p>
+
+                <div class="milestone-box">
+                    <div class="milestone-item">
+                        <span class="milestone-date">Day 1</span>
+                        Di mana semuanya dimulai, momen paling berkesan.
+                    </div>
+                    <div class="milestone-item">
+                        <span class="milestone-date">Day 15</span>
+                        Setiap obrolan makin dalam, dan aku makin yakin sama kamu.
+                    </div>
+                    <div class="milestone-item">
+                        <span class="milestone-date">Today</span>
+                        Satu bulan pertama yang indah. I'm so lucky to have you.
+                    </div>
+                </div>
+
+                <p style="margin-top: 25px;">Website ini mungkin sederhana, tapi setiap baris kodenya aku buat sambil mikirin betapa bersyukurnya aku punya kamu. Semoga kedepannya kita makin solid, makin sabar satu sama lain, dan makin banyak cerita seru yang kita tulis bareng.</p>
+                
+                <p style="font-style: italic; text-align: right; border-top: 1px solid var(--glass-border); padding-top: 20px;">
+                    Stay with me, okay?<br>
+                    <strong>With all my love, [Nama Kamu]</strong>
+                </p>
+
+                <div style="text-align: center;">
+                    <button class="btn-back" onclick="closeLetter()">Back to Cover</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const song = document.getElementById("mySong");
+        const btn = document.getElementById("playBtn");
+        const page1 = document.getElementById('page1');
+        const page2 = document.getElementById('page2');
+
+        function openLetter() {
+            page1.classList.add('hidden');
+            page2.classList.add('visible');
+            setTimeout(() => { if (song.paused) toggleMusic(); }, 800);
+        }
+
+        function closeLetter() {
+            page1.classList.remove('hidden');
+            page2.classList.remove('visible');
+            song.pause();
+            btn.innerHTML = "PLAY";
+            // Reset scroll ke atas saat ditutup
+            document.getElementById('page2').scrollTop = 0;
+        }
+
+        function toggleMusic() {
+            if (song.paused) {
+                song.play();
+                btn.innerHTML = "PAUSE";
+            } else {
+                song.pause();
+                btn.innerHTML = "PLAY";
+            }
+        }
+    </script>
+</body>
+</html>
