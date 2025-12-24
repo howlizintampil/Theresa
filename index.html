@@ -64,7 +64,7 @@
         }
         @keyframes popIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
-        /* --- 2. CHAPTERS MENU (CARDS BESAR) --- */
+        /* --- 2. CHAPTERS MENU --- */
         .chapter-container {
             display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%;
         }
@@ -83,30 +83,43 @@
         .month-card .icon { font-size: 40px; }
         .month-card .label { font-weight: bold; margin-top: 12px; font-size: 10px; letter-spacing: 0px; }
 
-        /* --- 3. CONTENT AREA --- */
+        /* --- 3. FIXED HEADER (Music + SubNav) --- */
         #music-header {
             position: fixed; top: 0; width: 100%;
-            display: none; justify-content: center; padding: 15px 0;
-            background: linear-gradient(to bottom, rgba(45, 1, 1, 1) 75%, rgba(45, 1, 1, 0) 100%);
+            display: none; flex-direction: column; align-items: center;
+            padding: 15px 0 10px 0;
+            background: linear-gradient(to bottom, rgba(45, 1, 1, 1) 85%, rgba(45, 1, 1, 0) 100%);
             z-index: 200;
         }
         .music-widget {
             width: 90%; max-width: 400px; background: rgba(255, 255, 255, 0.15);
             border: 1px solid var(--glass-border); border-radius: 20px;
             padding: 10px 15px; display: flex; align-items: center; gap: 12px; backdrop-filter: blur(20px);
+            margin-bottom: 12px;
         }
         .mini-art { width: 40px; height: 40px; background: url('assets/cover.png') center/cover; border-radius: 8px; }
         .song-info { flex-grow: 1; min-width: 0; }
         .song-info .title { font-size: 12px; font-weight: bold; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: block; }
-        .song-info .artist { font-size: 10px; opacity: 0.6; letter-spacing: 0.5px; margin-top: 1px; display: block; }
+        .song-info .artist { font-size: 8px; opacity: 0.6; letter-spacing: 0.5px; margin-top: 1px; display: block; }
         .play-circle {
             width: 35px; height: 35px; background: var(--text-color); border-radius: 50%;
             display: flex; justify-content: center; align-items: center; cursor: pointer; color: var(--maroon-deep);
         }
 
+        /* FIXED SUB NAVIGATION */
+        .sub-nav { display: flex; gap: 10px; width: 90%; max-width: 400px; }
+        .sub-btn {
+            flex: 1; background: var(--glass-bg); border: 1px solid var(--glass-border);
+            padding: 12px; border-radius: 15px; cursor: pointer; text-align: center;
+            font-size: 12px; font-weight: bold; transition: 0.3s; color: white;
+        }
+        .sub-btn.active { background: var(--accent); color: var(--maroon-deep); border-color: white; }
+
+        /* --- CONTENT SCROLL AREA --- */
         .scroll-content {
             width: 100%; height: 100%; overflow-y: auto;
-            padding-top: 100px; display: flex; flex-direction: column; align-items: center;
+            padding-top: 145px; /* Kompensasi untuk header fixed */
+            display: flex; flex-direction: column; align-items: center;
             padding-bottom: 50px;
         }
         .content-box {
@@ -115,16 +128,6 @@
             padding: 20px; width: 85%; max-width: 450px;
         }
 
-        /* --- SUB NAVIGATION --- */
-        .sub-nav { display: flex; gap: 10px; width: 90%; max-width: 450px; margin-bottom: 15px; }
-        .sub-btn {
-            flex: 1; background: var(--glass-bg); border: 1px solid var(--glass-border);
-            padding: 12px; border-radius: 15px; cursor: pointer; text-align: center;
-            font-size: 12px; font-weight: bold; transition: 0.3s; color: white;
-        }
-        .sub-btn.active { background: var(--accent); color: var(--maroon-deep); border-color: white; }
-
-        /* --- PHOTO LIST 1:1 --- */
         .photo-list { display: flex; flex-direction: column; gap: 30px; margin-top: 15px; }
         .photo-wrapper { width: 100%; display: flex; flex-direction: column; align-items: center; }
         .photo-item { 
@@ -143,7 +146,6 @@
         <div class="album-case" onclick="unwrap()">
             <div class="album-art"></div>
         </div>
-        
     </div>
 
     <div id="custom-popup" onclick="closePopup()">
@@ -162,6 +164,10 @@
                 <span class="artist">The Fray</span>
             </div>
             <div class="play-circle" onclick="toggleMusic()" id="playBtn">▶</div>
+        </div>
+        <div class="sub-nav">
+            <div id="btn-album" class="sub-btn active" onclick="switchContent('album')">🎞 Album</div>
+            <div id="btn-letter" class="sub-btn" onclick="switchContent('letter')">✉️ Letter</div>
         </div>
     </div>
     <audio id="mySong" loop><source src="assets/LookAfterYou.mp3" type="audio/mpeg"></audio>
@@ -192,11 +198,6 @@
 
     <div id="page-month-one" class="page">
         <div class="scroll-content" id="scrollArea">
-            <div class="sub-nav">
-                <div id="btn-album" class="sub-btn active" onclick="switchContent('album')">🎞</div>
-                <div id="btn-letter" class="sub-btn" onclick="switchContent('letter')">✉️ Letter</div>
-            </div>
-
             <div class="content-box">
                 <div id="album-content">
                     <h3 style="margin-bottom: 20px; text-align: center; font-size: 16px;">A Place Made For Theresa</h3>
@@ -212,10 +213,10 @@
                 </div>
 
                 <div id="letter-content" style="display: none;">
-                    <h3 style="margin-bottom: 15px; font-size: 16px;">It's Thiago on the line. I've got a message for you</h3>
+                    <h3 style="margin-bottom: 15px; font-size: 16px;">It's Thiago on the line.</h3>
                     <p style="text-align: justify; font-size: 14px; line-height: 1.6;">
                         A month ago, I didn’t know we’d end up here... sharing days, sharing thoughts, sharing little pieces of ourselves. Being with you feels like breathing easier. Like I don’t have to rush, don’t have to pretend, don’t have to be more than who I am right now.<br><br>
-                        A month might sound short to some people, but for me, this month means a lot. It means getting to know you a little deeper, learning your habits, your soft sides, and even the parts you try to hide. And somehow, semuanya terasa ngalir dan jatuh pada tempat yang seharusnya. Aku bersyukur banget, bahkan cuma karena kamu ada dan jadi seseorang yang bisa aku panggil “sayang” in every single day.<br><br>
+                        A month might sound short to some people, but for me, this month means a lot. It means getting to know you a little deeper, learning your habits, your soft sides, and even the parts you try to hide. Dan somehow, semuanya terasa ngalir dan jatuh pada tempat yang seharusnya. Aku bersyukur banget, bahkan cuma karena kamu ada dan jadi seseorang yang bisa aku panggil “sayang” in every single day.<br><br>
                         Sayang... Thank you ya? Thank you for always choosing me, even on days when I’m not at my best. Thank you for being patient, kamu yang selalu sabar nerima bagian dari sifatku yang bahkan orang lain mungkin nggak pernah ngerti. I may not always be perfect at expressing things, but please know that every feeling I have for you is real. Aku sayang kamu, in my own imperfect but sincere way.<br><br>
                         I want to take care of you, protect you, and be the one who makes life feel a bit softer for you. I want to be your safe place, tempat kamu pulang, tempat kamu ngerasa aman, nyaman, dan tenang. I want to be the reason you can breathe a little easier kalau dunia lagi berat dan bikin kamu capek. Aku bakal selalu ada buat kamu, to hold you close, wipe your tears, and remind you how deeply you are loved, even on days you forget it yourself.<br><br>
                         I don’t know what the future holds exactly, but I know I want to walk forward with you, one step at a time.<br><br>
@@ -258,8 +259,17 @@
             const letter = document.getElementById('letter-content');
             const btnAlbum = document.getElementById('btn-album');
             const btnLetter = document.getElementById('btn-letter');
-            if (type === 'album') { album.style.display = 'block'; letter.style.display = 'none'; btnAlbum.classList.add('active'); btnLetter.classList.remove('active'); }
-            else { album.style.display = 'none'; letter.style.display = 'block'; btnAlbum.classList.remove('active'); btnLetter.classList.add('active'); }
+            
+            // Scroll reset ke atas saat ganti tab
+            document.getElementById('scrollArea').scrollTop = 0;
+
+            if (type === 'album') {
+                album.style.display = 'block'; letter.style.display = 'none';
+                btnAlbum.classList.add('active'); btnLetter.classList.remove('active');
+            } else {
+                album.style.display = 'none'; letter.style.display = 'block';
+                btnAlbum.classList.remove('active'); btnLetter.classList.add('active');
+            }
         }
 
         function toggleMusic() {
