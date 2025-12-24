@@ -3,264 +3,268 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>For My Dearest One, Theresa ❤️</title>
+    <title>For My Dearest, Theresa ❤️</title>
     <style>
         :root {
             --maroon-deep: #4a0404;
             --maroon-bright: #800000;
-            --glass-bg: rgba(255, 255, 255, 0.12);
+            --glass-bg: rgba(255, 255, 255, 0.1);
             --glass-border: rgba(255, 255, 255, 0.2);
             --text-color: #fce4e4;
+            --accent: #ffb3b3;
         }
 
         body, html {
-            margin: 0;
-            padding: 0;
-            height: 100vh;
-            font-family: 'Georgia', serif;
+            margin: 0; padding: 0; height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #2d0101 0%, #630a0a 50%, #800000 100%);
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        /* --- HALAMAN 1: COVER --- */
-        #page1 {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            z-index: 10;
-            transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .album-case {
-            width: 280px;
-            height: 280px;
-            background: var(--glass-bg);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border: 1px solid var(--glass-border);
-            border-radius: 25px;
-            padding: 20px;
-            box-shadow: 0 15px 45px rgba(0,0,0,0.4);
-            cursor: pointer;
-            transition: transform 0.4s ease;
-        }
-
-        .album-case:hover { transform: scale(1.05); }
-
-        .album-art {
-            width: 100%;
-            height: 100%;
-            background: url('https://images.unsplash.com/photo-1516589174184-e66443dd954a?q=80&w=500') center/cover;
-            border-radius: 15px;
-            display: flex;
-            justify-content: center;
-            align-items: flex-end;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .album-art::after {
-            content: "CLICK TO UNWRAP";
-            background: rgba(0,0,0,0.5);
-            color: white;
-            width: 100%;
-            padding: 12px 0;
-            text-align: center;
-            font-size: 10px;
-            letter-spacing: 3px;
-        }
-
-        /* --- HALAMAN 2: CONTENT --- */
-        #page2 {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 1.2s ease;
-            overflow-y: auto; /* Memungkinkan scroll jika konten panjang */
-            padding: 40px 0;
-        }
-
-        .content-wrapper {
-            width: 90%;
-            max-width: 500px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            margin: auto; /* Menjaga konten tetap di tengah saat scroll */
-        }
-
-        .glass-panel {
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            border-radius: 25px;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            overflow: hidden; display: flex; justify-content: center; align-items: center;
             color: var(--text-color);
         }
 
-        .music-player {
-            padding: 15px 25px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 5;
+        .page {
+            position: absolute; width: 100%; height: 100%;
+            display: none; flex-direction: column; align-items: center;
+            opacity: 0; transition: opacity 0.6s ease;
+        }
+        .visible { display: flex !important; opacity: 1 !important; }
+
+        /* --- 1. COVER --- */
+        #page1 { justify-content: center; z-index: 100; }
+        .album-case {
+            width: 280px; max-width: 80vw; aspect-ratio: 1/1;
+            background: var(--glass-bg); backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border); border-radius: 30px;
+            padding: 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            cursor: pointer; 
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .album-case:hover { transform: scale(1.08); }
+        .album-art {
+            width: 100%; height: 100%;
+            background: url('assets/cover.png') center/cover no-repeat;
+            border-radius: 20px; display: flex; justify-content: center; align-items: flex-end; overflow: hidden;
+        }
+        .album-art::after {
+            content: "CLICK TO UNWRAP"; background: rgba(0,0,0,0.6); color: white;
+            width: 100%; padding: 15px 0; text-align: center; font-size: 10px; letter-spacing: 3px;
         }
 
-        .love-letter {
-            padding: 35px;
-            line-height: 1.8;
+        /* --- POPUP --- */
+        #custom-popup {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.7); display: none; justify-content: center; align-items: center;
+            z-index: 1000; backdrop-filter: blur(5px);
+        }
+        .popup-box {
+            background: var(--maroon-deep); border: 1px solid var(--glass-border);
+            padding: 30px; border-radius: 25px; text-align: center; width: 80%; max-width: 300px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            animation: popIn 0.3s ease;
+        }
+        @keyframes popIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+        /* --- 2. CHAPTERS MENU (CARDS BESAR) --- */
+        .chapter-container {
+            display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%;
+        }
+        .chapter-grid {
+            display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; padding: 20px;
+            max-width: 450px; width: 90%;
+        }
+        .month-card {
+            aspect-ratio: 1/1.2; background: var(--glass-bg);
+            border: 1px solid var(--glass-border); border-radius: 15px;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            transition: 0.3s; cursor: pointer;
+        }
+        .month-card.unlocked:hover { transform: translateY(-8px); border-color: var(--accent); background: rgba(255,255,255,0.15); }
+        .month-card.locked { opacity: 0.4; filter: grayscale(1); }
+        .month-card .icon { font-size: 40px; }
+        .month-card .label { font-weight: bold; margin-top: 12px; font-size: 10px; letter-spacing: 0px; }
+
+        /* --- 3. CONTENT AREA --- */
+        #music-header {
+            position: fixed; top: 0; width: 100%;
+            display: none; justify-content: center; padding: 15px 0;
+            background: linear-gradient(to bottom, rgba(45, 1, 1, 1) 75%, rgba(45, 1, 1, 0) 100%);
+            z-index: 200;
+        }
+        .music-widget {
+            width: 90%; max-width: 400px; background: rgba(255, 255, 255, 0.15);
+            border: 1px solid var(--glass-border); border-radius: 20px;
+            padding: 10px 15px; display: flex; align-items: center; gap: 12px; backdrop-filter: blur(20px);
+        }
+        .mini-art { width: 40px; height: 40px; background: url('assets/cover.png') center/cover; border-radius: 8px; }
+        .song-info { flex-grow: 1; min-width: 0; }
+        .song-info .title { font-size: 12px; font-weight: bold; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: block; }
+        .song-info .artist { font-size: 10px; opacity: 0.6; letter-spacing: 0.5px; margin-top: 1px; display: block; }
+        .play-circle {
+            width: 35px; height: 35px; background: var(--text-color); border-radius: 50%;
+            display: flex; justify-content: center; align-items: center; cursor: pointer; color: var(--maroon-deep);
         }
 
-        /* Variasi Konten: Milestones */
-        .milestone-box {
-            margin-top: 25px;
-            padding: 15px;
-            border-left: 2px solid var(--glass-border);
-            font-size: 14px;
-            background: rgba(255,255,255,0.05);
-            border-radius: 0 15px 15px 0;
+        .scroll-content {
+            width: 100%; height: 100%; overflow-y: auto;
+            padding-top: 100px; display: flex; flex-direction: column; align-items: center;
+            padding-bottom: 50px;
+        }
+        .content-box {
+            background: var(--glass-bg); backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border); border-radius: 25px;
+            padding: 20px; width: 85%; max-width: 450px;
         }
 
-        .milestone-item { margin-bottom: 10px; }
-        .milestone-date { font-weight: bold; color: #fff; display: block; }
-
-        /* Tombol */
-        .btn-action {
-            background: #fce4e4;
-            color: var(--maroon-deep);
-            border: none;
-            padding: 8px 20px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: 0.3s;
+        /* --- SUB NAVIGATION --- */
+        .sub-nav { display: flex; gap: 10px; width: 90%; max-width: 450px; margin-bottom: 15px; }
+        .sub-btn {
+            flex: 1; background: var(--glass-bg); border: 1px solid var(--glass-border);
+            padding: 12px; border-radius: 15px; cursor: pointer; text-align: center;
+            font-size: 12px; font-weight: bold; transition: 0.3s; color: white;
         }
+        .sub-btn.active { background: var(--accent); color: var(--maroon-deep); border-color: white; }
 
-        .btn-action:hover { background: #fff; transform: scale(1.1); }
-
-        .btn-back {
-            background: transparent;
-            border: none;
-            color: rgba(252, 228, 228, 0.5);
-            cursor: pointer;
-            margin: 20px 0;
-            font-size: 13px;
-            text-decoration: underline;
+        /* --- PHOTO LIST 1:1 --- */
+        .photo-list { display: flex; flex-direction: column; gap: 30px; margin-top: 15px; }
+        .photo-wrapper { width: 100%; display: flex; flex-direction: column; align-items: center; }
+        .photo-item { 
+            width: 100%; aspect-ratio: 1/1; background: rgba(255,255,255,0.1); 
+            border-radius: 15px; background-size: cover; background-position: center;
+            border: 1px solid var(--glass-border); box-shadow: 0 10px 20px rgba(0,0,0,0.2);
         }
+        .photo-caption { margin-top: 12px; font-size: 12px; font-style: italic; text-align: center; opacity: 0.8; color: var(--accent); padding: 0 10px; }
 
-        /* Utility */
-        .hidden { transform: translateY(-100%) scale(0.9); opacity: 0; pointer-events: none; }
-        .visible { opacity: 1 !important; visibility: visible !important; }
-        
-        h2 { margin-top: 0; font-family: 'Segoe UI', sans-serif; letter-spacing: 1px; }
-        .highlight { color: #ffb3b3; font-weight: bold; }
-        
-        /* Custom Scrollbar */
-        #page2::-webkit-scrollbar { width: 5px; }
-        #page2::-webkit-scrollbar-thumb { background: var(--glass-border); border-radius: 10px; }
+        .btn-back { background: transparent; border: none; color: rgba(255,255,255,0.5); margin-top: 25px; cursor: pointer; text-decoration: underline; font-size: 13px; width: 100%; text-align: center; }
     </style>
 </head>
 <body>
 
-    <div id="page1">
-        <div class="album-case" onclick="openLetter()">
+    <div id="page1" class="page visible">
+        <div class="album-case" onclick="unwrap()">
             <div class="album-art"></div>
         </div>
-        <h1 style="color: white; margin-top: 30px; font-weight: lighter; letter-spacing: 4px; font-size: 18px;">DEAR THERESA</h1>
+        
     </div>
 
-    <div id="page2">
-        <div class="content-wrapper">
-            <div class="glass-panel music-player">
-                <div>
-                    <span style="font-size: 12px; opacity: 0.7; display: block;">Playlist for you:</span>
-                    <span style="font-size: 14px; font-weight: bold;">Our Memories.mp3 🎵</span>
-                </div>
-                <audio id="mySong" loop>
-                    <source src="D:\DEPLOY\There\LookAfterYou.mp3" type="audio/mpeg">
-                </audio>
-                <button onclick="toggleMusic()" id="playBtn" class="btn-action">PLAY</button>
+    <div id="custom-popup" onclick="closePopup()">
+        <div class="popup-box" onclick="event.stopPropagation()">
+            <h3 style="margin-top:0;">NUUH!</h3>
+            <p style="font-size: 14px; line-height: 1.6;">You should wait a bit :b</p>
+            <button onclick="closePopup()" style="background: var(--accent); border:none; padding: 10px 20px; border-radius: 15px; font-weight: bold; cursor: pointer; margin-top: 10px;">Ok</button>
+        </div>
+    </div>
+
+    <div id="music-header">
+        <div class="music-widget">
+            <div class="mini-art"></div>
+            <div class="song-info">
+                <span class="title">Look After You</span>
+                <span class="artist">The Fray</span>
             </div>
+            <div class="play-circle" onclick="toggleMusic()" id="playBtn">▶</div>
+        </div>
+    </div>
+    <audio id="mySong" loop><source src="assets/LookAfterYou.mp3" type="audio/mpeg"></audio>
 
-            <div class="glass-panel love-letter">
-                <h2>Hi Theresa ❤️</h2>
-                <p>Happy 1st Mensive! Gak kerasa ya, perjalanan <span class="highlight">30 hari</span> kita sudah sampai di titik ini. Aku cuma mau bilang makasih banyak karena kamu sudah memilih untuk ada di sini, di samping aku.</p>
-                
-                <p>Makasih buat setiap chat random, telpon lama yang bikin lupa waktu, dan semua dukungan kecil yang sebenarnya berarti besar banget buat aku. Kamu itu <span class="highlight">bintang paling terang</span> di langit maroon aku malam ini.</p>
-
-                <div class="milestone-box">
-                    <div class="milestone-item">
-                        <span class="milestone-date">Day 1</span>
-                        Di mana semuanya dimulai, momen paling berkesan.
-                    </div>
-                    <div class="milestone-item">
-                        <span class="milestone-date">Day 15</span>
-                        Setiap obrolan makin dalam, dan aku makin yakin sama kamu.
-                    </div>
-                    <div class="milestone-item">
-                        <span class="milestone-date">Today</span>
-                        Satu bulan pertama yang indah. I'm so lucky to have you.
-                    </div>
+    <div id="page-menu" class="page">
+        <div class="chapter-container">
+            <h2 style="letter-spacing: 4px; font-size: 20px; margin-bottom: 25px;">OUR CHAPTERS</h2>
+            <div class="chapter-grid">
+                <div class="month-card unlocked" onclick="showMonthOne()">
+                    <span class="icon">🎁</span>
+                    <span class="label">Chapter 01</span>
                 </div>
-
-                <p style="margin-top: 25px;">Website ini mungkin sederhana, tapi setiap baris kodenya aku buat sambil mikirin betapa bersyukurnya aku punya kamu. Semoga kedepannya kita makin solid, makin sabar satu sama lain, dan makin banyak cerita seru yang kita tulis bareng.</p>
-                
-                <p style="font-style: italic; text-align: right; border-top: 1px solid var(--glass-border); padding-top: 20px;">
-                    Stay with me, okay?<br>
-                    <strong>With all my love, [Nama Kamu]</strong>
-                </p>
-
-                <div style="text-align: center;">
-                    <button class="btn-back" onclick="closeLetter()">Back to Cover</button>
+                <div class="month-card locked" onclick="showLocked()">
+                    <span class="icon">🔒</span>
+                    <span class="label">Chapter 02</span>
+                </div>
+                <div class="month-card locked" onclick="showLocked()">
+                    <span class="icon">🔒</span>
+                    <span class="label">Chapter 03</span>
+                </div>
+                <div class="month-card locked" style="border-style: dashed; opacity: 0.2;">
+                    <span class="icon" style="font-size: 30px;">...</span>
                 </div>
             </div>
+            <button class="btn-back" onclick="backToCover()">Return to Cover</button>
+        </div>
+    </div>
+
+    <div id="page-month-one" class="page">
+        <div class="scroll-content" id="scrollArea">
+            <div class="sub-nav">
+                <div id="btn-album" class="sub-btn active" onclick="switchContent('album')">🎞</div>
+                <div id="btn-letter" class="sub-btn" onclick="switchContent('letter')">✉️ Letter</div>
+            </div>
+
+            <div class="content-box">
+                <div id="album-content">
+                    <h3 style="margin-bottom: 20px; text-align: center; font-size: 16px;">A Place Made For Theresa</h3>
+                    <div class="photo-list">
+                        <div class="photo-wrapper"><div class="photo-item" style="background-image: url('assets/foto1.jpg');"></div><div class="photo-caption">"You matter just the way you are, without having to change or prove anything."</div></div>
+                        <div class="photo-wrapper"><div class="photo-item" style="background-image: url('assets/foto2.jpg');"></div><div class="photo-caption">"You are enough, even on days when you feel tired, unsure, or a little lost."</div></div>
+                        <div class="photo-wrapper"><div class="photo-item" style="background-image: url('assets/foto3.jpg');"></div><div class="photo-caption">"You are not alone in this. I’m always here, walking beside you."</div></div>
+                        <div class="photo-wrapper"><div class="photo-item" style="background-image: url('assets/foto4.jpg');"></div><div class="photo-caption">"It’s okay to take things slow, to rest, and to breathe when everything feels heavy."</div></div>
+                        <div class="photo-wrapper"><div class="photo-item" style="background-image: url('assets/foto5.jpg');"></div><div class="photo-caption">"You don’t have to be perfect to be loved, you are loved for who you are."</div></div>
+                        <div class="photo-wrapper"><div class="photo-item" style="background-image: url('assets/foto6.jpg');"></div><div class="photo-caption">"You are deeply loved, today and always, in every version of you."</div></div>
+                        <div class="photo-wrapper"><div class="photo-item" style="background-image: url('assets/foto7.jpeg');"></div><div class="photo-caption">"Happy 1 Month, Theresa."</div></div>
+                    </div>
+                </div>
+
+                <div id="letter-content" style="display: none;">
+                    <h3 style="margin-bottom: 15px; font-size: 16px;">It's Thiago on the line. I've got a message for you</h3>
+                    <p style="text-align: justify; font-size: 14px; line-height: 1.6;">
+                        A month ago, I didn’t know we’d end up here... sharing days, sharing thoughts, sharing little pieces of ourselves. Being with you feels like breathing easier. Like I don’t have to rush, don’t have to pretend, don’t have to be more than who I am right now.<br><br>
+                        A month might sound short to some people, but for me, this month means a lot. It means getting to know you a little deeper, learning your habits, your soft sides, and even the parts you try to hide. And somehow, semuanya terasa ngalir dan jatuh pada tempat yang seharusnya. Aku bersyukur banget, bahkan cuma karena kamu ada dan jadi seseorang yang bisa aku panggil “sayang” in every single day.<br><br>
+                        Sayang... Thank you ya? Thank you for always choosing me, even on days when I’m not at my best. Thank you for being patient, kamu yang selalu sabar nerima bagian dari sifatku yang bahkan orang lain mungkin nggak pernah ngerti. I may not always be perfect at expressing things, but please know that every feeling I have for you is real. Aku sayang kamu, in my own imperfect but sincere way.<br><br>
+                        I want to take care of you, protect you, and be the one who makes life feel a bit softer for you. I want to be your safe place, tempat kamu pulang, tempat kamu ngerasa aman, nyaman, dan tenang. I want to be the reason you can breathe a little easier kalau dunia lagi berat dan bikin kamu capek. Aku bakal selalu ada buat kamu, to hold you close, wipe your tears, and remind you how deeply you are loved, even on days you forget it yourself.<br><br>
+                        I don’t know what the future holds exactly, but I know I want to walk forward with you, one step at a time.<br><br>
+                        I love you, Theresa.
+                    </p>
+                    <p style="text-align: right; font-size: 12px; margin-top: 20px; color: var(--accent);">
+                        Lots of love, Thiago.
+                    </p>
+                </div>
+            </div>
+            <button class="btn-back" onclick="backToMenu()">Back to Chapters</button>
         </div>
     </div>
 
     <script>
         const song = document.getElementById("mySong");
-        const btn = document.getElementById("playBtn");
-        const page1 = document.getElementById('page1');
-        const page2 = document.getElementById('page2');
+        const playBtn = document.getElementById("playBtn");
+        const musicHeader = document.getElementById('music-header');
+        const popup = document.getElementById('custom-popup');
 
-        function openLetter() {
-            page1.classList.add('hidden');
-            page2.classList.add('visible');
-            setTimeout(() => { if (song.paused) toggleMusic(); }, 800);
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(p => {
+                p.classList.remove('visible');
+                setTimeout(() => { if(p.id !== pageId) p.style.display = 'none'; }, 300);
+            });
+            const target = document.getElementById(pageId);
+            target.style.display = 'flex';
+            setTimeout(() => target.classList.add('visible'), 50);
         }
 
-        function closeLetter() {
-            page1.classList.remove('hidden');
-            page2.classList.remove('visible');
-            song.pause();
-            btn.innerHTML = "PLAY";
-            // Reset scroll ke atas saat ditutup
-            document.getElementById('page2').scrollTop = 0;
+        function unwrap() { showPage('page-menu'); }
+        function backToCover() { showPage('page1'); musicHeader.style.display = 'none'; song.pause(); playBtn.innerHTML = "▶"; }
+        function showMonthOne() { showPage('page-month-one'); musicHeader.style.display = 'flex'; switchContent('album'); }
+        function backToMenu() { showPage('page-menu'); musicHeader.style.display = 'none'; song.pause(); playBtn.innerHTML = "▶"; }
+        function showLocked() { popup.style.display = 'flex'; }
+        function closePopup() { popup.style.display = 'none'; }
+
+        function switchContent(type) {
+            const album = document.getElementById('album-content');
+            const letter = document.getElementById('letter-content');
+            const btnAlbum = document.getElementById('btn-album');
+            const btnLetter = document.getElementById('btn-letter');
+            if (type === 'album') { album.style.display = 'block'; letter.style.display = 'none'; btnAlbum.classList.add('active'); btnLetter.classList.remove('active'); }
+            else { album.style.display = 'none'; letter.style.display = 'block'; btnAlbum.classList.remove('active'); btnLetter.classList.add('active'); }
         }
 
         function toggleMusic() {
-            if (song.paused) {
-                song.play();
-                btn.innerHTML = "PAUSE";
-            } else {
-                song.pause();
-                btn.innerHTML = "PLAY";
-            }
+            if (song.paused) { song.play(); playBtn.innerHTML = "⏸"; }
+            else { song.pause(); playBtn.innerHTML = "▶"; }
         }
     </script>
 </body>
